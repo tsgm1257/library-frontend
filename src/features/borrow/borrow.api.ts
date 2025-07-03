@@ -13,7 +13,17 @@ export const borrowApi = createApi({
       }),
       invalidatesTags: ['Borrow'],
     }),
+
+    getBorrowSummary: builder.query<
+      { title: string; isbn: string; totalBorrowed: number }[],
+      void
+    >({
+      query: () => 'borrows/summary',
+    }),
   }),
 });
 
-export const { useBorrowBookMutation } = borrowApi;
+export const {
+  useBorrowBookMutation,
+  useGetBorrowSummaryQuery,
+} = borrowApi;
