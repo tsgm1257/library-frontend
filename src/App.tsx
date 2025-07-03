@@ -5,6 +5,7 @@ import BorrowBook from "./pages/BorrowBook";
 import BorrowSummary from "./pages/BorrowSummary";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import EditBook from "./pages/EditBook";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -46,6 +47,14 @@ const router = createBrowserRouter([
     element: (
       <AppLayout>
         <BorrowSummary />
+      </AppLayout>
+    ),
+  },
+  {
+    path: "/edit-book/:id",
+    element: (
+      <AppLayout>
+        <EditBook />
       </AppLayout>
     ),
   },
