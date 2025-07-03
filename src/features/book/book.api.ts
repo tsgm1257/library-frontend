@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Book {
   _id?: string;
@@ -12,45 +12,46 @@ export interface Book {
 }
 
 export const bookApi = createApi({
-  reducerPath: 'bookApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/' }),
-  tagTypes: ['Book'],
+  reducerPath: "bookApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
+  tagTypes: ["Book"],
   endpoints: (builder) => ({
     getBooks: builder.query<Book[], void>({
-      query: () => 'books',
-      providesTags: ['Book'],
+      query: () => "books",
+      providesTags: ["Book"],
     }),
 
     getBook: builder.query<Book, string>({
       query: (id) => `books/${id}`,
+      providesTags: (_, __, id) => [{ type: "Book", id }],
     }),
 
     addBook: builder.mutation<Book, Partial<Book>>({
       query: (book) => ({
-        url: 'books',
-        method: 'POST',
+        url: "books",
+        method: "POST",
         body: book,
       }),
-      invalidatesTags: ['Book'],
+      invalidatesTags: ["Book"],
     }),
 
     updateBook: builder.mutation<Book, { id: string; data: Partial<Book> }>({
       query: ({ id, data }) => ({
         url: `books/${id}`,
-        method: 'PATCH',
+        method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ['Book'],
+      invalidatesTags: (_, __, { id }) => [{ type: "Book", id }, "Book"],
     }),
 
     deleteBook: builder.mutation<void, string>({
       query: (id) => ({
         url: `books/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          bookApi.util.updateQueryData('getBooks', undefined, (draft) => {
+          bookApi.util.updateQueryData("getBooks", undefined, (draft) => {
             return draft.filter((book) => book._id !== id);
           })
         );
@@ -61,7 +62,7 @@ export const bookApi = createApi({
           patchResult.undo(); // rollback if server fails
         }
       },
-      invalidatesTags: ['Book'],
+      invalidatesTags: ["Book"],
     }),
   }),
 });
