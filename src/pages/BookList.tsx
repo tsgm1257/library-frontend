@@ -1,18 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import {
-  useGetBooksQuery,
   useDeleteBookMutation,
+  useGetBooksQuery,
 } from "../features/book/book.api";
 import toast from "react-hot-toast";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const BookList = () => {
-  const { data: books, isLoading, isError } = useGetBooksQuery();
-  const [deleteBook] = useDeleteBookMutation();
   const navigate = useNavigate();
-
   const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const limit = 5;
+
+  const { data, isLoading, isError } = useGetBooksQuery({ page, limit });
+
+  const [deleteBook] = useDeleteBookMutation();
+
+  const books = data?.data || [];
+  const meta = data?.meta;
 
   const handleDelete = async () => {
     if (!selectedBookId) return;
@@ -33,6 +39,7 @@ const BookList = () => {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">All Books</h2>
+
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead>
@@ -47,9 +54,16 @@ const BookList = () => {
             </tr>
           </thead>
           <tbody>
-            {books?.map((book) => (
+            {books.map((book) => (
               <tr key={book._id}>
-                <td>{book.title}</td>
+                <td>
+                  <button
+                    onClick={() => navigate(`/books/${book._id}`)}
+                    className="link link-hover text-primary"
+                  >
+                    {book.title}
+                  </button>
+                </td>
                 <td>{book.author}</td>
                 <td>{book.genre}</td>
                 <td>{book.isbn}</td>
@@ -83,11 +97,39 @@ const BookList = () => {
         </table>
       </div>
 
-      {/* Delete Confirmation Modal */}
-      <dialog
-        id="delete_modal"
-        className={`modal ${selectedBookId ? "modal-open" : ""}`}
-      >
+      {/* Pagination */}
+      <div className="mt-6 flex justify-center">
+        <div className="join">
+          <button
+            className="join-item btn"
+            disabled={page === 1}
+            onClick={() => setPage((prev) => prev - 1)}
+          >
+            Prev
+          </button>
+          {Array.from({ length: meta?.totalPages || 1 }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i + 1)}
+              className={`join-item btn ${
+                meta?.page === i + 1 ? "btn-active" : ""
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            className="join-item btn"
+            disabled={page === meta?.totalPages}
+            onClick={() => setPage((prev) => prev + 1)}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
+      {/* Delete Modal */}
+      <dialog className={`modal ${selectedBookId ? "modal-open" : ""}`}>
         <div className="modal-box">
           <h3 className="font-bold text-lg">Confirm Deletion</h3>
           <p className="py-4">Are you sure you want to delete this book?</p>

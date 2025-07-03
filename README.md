@@ -1,69 +1,81 @@
-# React + TypeScript + Vite
+# Library Management System – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **Frontend** for the Library Management System built using **React**, **TypeScript**, **Redux Toolkit Query**, and **Tailwind CSS + DaisyUI**.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- View paginated book list
+- Add, edit, delete books
+- Borrow books with quantity and due date
+- Aggregated borrow summary
+- Optimistic UI for deletes
+- Toast notifications for feedback
+- Fully responsive layout
+- Type-safe form handling
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React + Vite
+- TypeScript
+- Redux Toolkit + RTK Query
+- React Router
+- Tailwind CSS + DaisyUI
+- React Hot Toast
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Folder Structure
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+client/
+├── src/
+│   ├── components/
+│   │   └── Layout, Footer, etc.
+│   ├── features/
+│   │   ├── book/
+│   │   │   └── book.api.ts
+│   │   └── borrow/
+│   │       └── borrow.api.ts
+│   ├── pages/
+│   │   ├── BookList.tsx
+│   │   ├── AddBook.tsx
+│   │   ├── EditBook.tsx
+│   │   ├── BorrowForm.tsx
+│   │   └── BorrowSummary.tsx
+│   ├── App.tsx
+│   └── main.tsx
+├── index.html
+└── package.json
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Installation & Running
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
+
+Runs at `http://localhost:5173`
+
+## Available Routes
+
+| Route           | Description                           |
+| --------------- | ------------------------------------- |
+| /books          | View all books                        |
+| /create-book    | Add a new book                        |
+| /edit-book/:id  | Edit existing book                    |
+| /borrow/:bookId | Borrow a specific book                |
+| /borrow-summary | View total quantity borrowed per book |
+| /books/:id      | View book details                     |
+
+## API Connection
+
+This app connects to the backend at:
+
+```
+http://localhost:5000/api/
+```
+
+Make sure the backend server is running before starting the frontend.
+
+## Developer
+
+- Built by Tanzeem Siddique

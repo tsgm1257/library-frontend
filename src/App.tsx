@@ -3,6 +3,7 @@ import BookList from "./pages/BookList";
 import AddBook from "./pages/AddBook";
 import BorrowBook from "./pages/BorrowBook";
 import BorrowSummary from "./pages/BorrowSummary";
+import BookDetails from "./pages/BookDetails";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import EditBook from "./pages/EditBook";
@@ -23,6 +24,22 @@ const router = createBrowserRouter([
     element: (
       <AppLayout>
         <BookList />
+      </AppLayout>
+    ),
+  },
+  {
+    path: "/books",
+    element: (
+      <AppLayout>
+        <BookList />
+      </AppLayout>
+    ),
+  },
+  {
+    path: "/books/:id",
+    element: (
+      <AppLayout>
+        <BookDetails />
       </AppLayout>
     ),
   },

@@ -36,7 +36,7 @@ const AddBook = () => {
     try {
       await addBook(payload).unwrap();
       toast.success("Book added");
-      navigate("/");
+      navigate('/books');
     } catch {
       toast.error("Failed to add book");
     }

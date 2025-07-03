@@ -9,7 +9,7 @@ const Footer = () => {
         {/* Column 1 */}
         <div className="flex flex-col">
           <h3 className="footer-title text-white">Library System</h3>
-          <a className="link link-hover text-gray-300" href="/">
+          <a className="link link-hover text-gray-300" href="/books">
             All Books
           </a>
           <a className="link link-hover text-gray-300" href="/create-book">

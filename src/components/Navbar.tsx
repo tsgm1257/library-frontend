@@ -9,7 +9,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <Link to="/" className="btn btn-sm btn-ghost">
+        <Link to="/books" className="btn btn-sm btn-ghost">
           All Books
         </Link>
         <Link to="/create-book" className="btn btn-sm btn-ghost">

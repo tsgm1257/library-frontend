@@ -67,7 +67,7 @@ const EditBook = () => {
     try {
       await updateBook({ id: id!, data: payload }).unwrap();
       toast.success("Book updated successfully");
-      navigate("/");
+      navigate("/books");
     } catch {
       toast.error("Failed to update book");
     }
@@ -156,9 +156,7 @@ const EditBook = () => {
             onChange={handleChange}
             disabled={form.copies === 0} // lock toggle if 0 copies
           />
-          <span className="label-text">
-            Available
-          </span>
+          <span className="label-text">Available</span>
         </label>
 
         <button

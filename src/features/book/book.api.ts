@@ -16,8 +16,19 @@ export const bookApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
   tagTypes: ["Book"],
   endpoints: (builder) => ({
-    getBooks: builder.query<Book[], void>({
-      query: () => "books",
+    getBooks: builder.query<
+      {
+        data: Book[];
+        meta: {
+          total: number;
+          page: number;
+          limit: number;
+          totalPages: number;
+        };
+      },
+      { page: number; limit: number }
+    >({
+      query: ({ page, limit }) => `books?page=${page}&limit=${limit}`,
       providesTags: ["Book"],
     }),
 
@@ -49,19 +60,6 @@ export const bookApi = createApi({
         url: `books/${id}`,
         method: "DELETE",
       }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          bookApi.util.updateQueryData("getBooks", undefined, (draft) => {
-            return draft.filter((book) => book._id !== id);
-          })
-        );
-
-        try {
-          await queryFulfilled;
-        } catch {
-          patchResult.undo(); // rollback if server fails
-        }
-      },
       invalidatesTags: ["Book"],
     }),
   }),
