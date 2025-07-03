@@ -1,10 +1,13 @@
-import { useGetBooksQuery } from '../features/book/book.api';
+import { useGetBooksQuery } from "../features/book/book.api";
+import { useNavigate } from "react-router";
 
 const BookList = () => {
   const { data: books, isLoading, isError } = useGetBooksQuery();
+  const navigate = useNavigate();
 
   if (isLoading) return <div className="p-4">Loading books...</div>;
-  if (isError) return <div className="p-4 text-red-500">Failed to load books.</div>;
+  if (isError)
+    return <div className="p-4 text-red-500">Failed to load books.</div>;
 
   return (
     <div className="p-4">
@@ -19,6 +22,7 @@ const BookList = () => {
               <th>ISBN</th>
               <th>Copies</th>
               <th>Available</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -29,7 +33,15 @@ const BookList = () => {
                 <td>{book.genre}</td>
                 <td>{book.isbn}</td>
                 <td>{book.copies}</td>
-                <td>{book.available ? 'Yes' : 'No'}</td>
+                <td>{book.available ? "Yes" : "No"}</td>
+                <td>
+                  <button
+                    className="btn btn-xs btn-secondary"
+                    onClick={() => navigate(`/borrow/${book._id}`)}
+                  >
+                    Borrow
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
