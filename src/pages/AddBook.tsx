@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAddBookMutation } from "../features/book/book.api";
 import { useNavigate } from "react-router";
+import toast from 'react-hot-toast';
 
 const AddBook = () => {
   const [form, setForm] = useState({
@@ -27,6 +28,7 @@ const AddBook = () => {
       await addBook({ ...form, copies: Number(form.copies) }).unwrap();
       navigate("/");
     } catch (err) {
+      toast.error("Failed to add book");
       console.error("Failed to add book:", err);
     }
   };

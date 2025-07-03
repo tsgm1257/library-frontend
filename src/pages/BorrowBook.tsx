@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router";
 import { useState } from "react";
 import { useGetBookQuery } from "../features/book/book.api";
 import { useBorrowBookMutation } from "../features/borrow/borrow.api";
+import toast from "react-hot-toast";
 
 const BorrowBook = () => {
   const { bookId } = useParams();
@@ -27,6 +28,7 @@ const BorrowBook = () => {
       }).unwrap();
       navigate("/");
     } catch (err) {
+      toast.error("Failed to borrow book");
       console.error("Borrow failed:", err);
     }
   };

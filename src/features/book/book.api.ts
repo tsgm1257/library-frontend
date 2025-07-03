@@ -20,9 +20,11 @@ export const bookApi = createApi({
       query: () => 'books',
       providesTags: ['Book'],
     }),
+
     getBook: builder.query<Book, string>({
       query: (id) => `books/${id}`,
     }),
+
     addBook: builder.mutation<Book, Partial<Book>>({
       query: (book) => ({
         url: 'books',
@@ -31,6 +33,7 @@ export const bookApi = createApi({
       }),
       invalidatesTags: ['Book'],
     }),
+
     updateBook: builder.mutation<Book, { id: string; data: Partial<Book> }>({
       query: ({ id, data }) => ({
         url: `books/${id}`,
@@ -39,11 +42,25 @@ export const bookApi = createApi({
       }),
       invalidatesTags: ['Book'],
     }),
+
     deleteBook: builder.mutation<void, string>({
       query: (id) => ({
         url: `books/${id}`,
         method: 'DELETE',
       }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          bookApi.util.updateQueryData('getBooks', undefined, (draft) => {
+            return draft.filter((book) => book._id !== id);
+          })
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo(); // rollback if server fails
+        }
+      },
       invalidatesTags: ['Book'],
     }),
   }),
