@@ -38,7 +38,7 @@ client/
 │   │   ├── BookList.tsx
 │   │   ├── AddBook.tsx
 │   │   ├── EditBook.tsx
-│   │   ├── BorrowForm.tsx
+│   │   ├── BorrowDetails.tsx
 │   │   └── BorrowSummary.tsx
 │   ├── App.tsx
 │   └── main.tsx
