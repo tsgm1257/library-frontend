@@ -13,7 +13,9 @@ export interface Book {
 
 export const bookApi = createApi({
   reducerPath: "bookApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_API_BASE_URL,
+  }),
   tagTypes: ["Book"],
   endpoints: (builder) => ({
     getBooks: builder.query<
